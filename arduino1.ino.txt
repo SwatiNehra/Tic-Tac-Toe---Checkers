@@ -1,0 +1,279 @@
+int avg1,avg2,avg3,avg4,avg5,avg6,avg7,avg8,avg9;
+char r;
+int p1=2,p2=3,p3=4,p4=7,p5=6,p6=5,p7=10,p8=9,p9=8;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(A0,INPUT);
+  pinMode(A1,INPUT);
+  pinMode(A2,INPUT);
+  pinMode(A3,INPUT);
+  pinMode(A4,INPUT);
+  pinMode(A5,INPUT);
+ // pinMode(A6,INPUT);
+ // pinMode(A7,INPUT);
+  pinMode(2,OUTPUT);
+  pinMode(3,OUTPUT);
+  pinMode(4,OUTPUT);
+  pinMode(5,OUTPUT);
+  pinMode(6,OUTPUT);
+  pinMode(7,OUTPUT);
+  pinMode(8,OUTPUT);
+  pinMode(9,OUTPUT);
+  pinMode(10,OUTPUT);
+  pinMode(11,INPUT);
+  pinMode(12,INPUT);
+  pinMode(13,INPUT);
+    while(!Serial.available())
+  {
+   
+  }
+  digitalWrite(13,LOW);
+  
+ if(Serial.available()){
+    if(Serial.available()>0)
+    { 
+      
+      while(r!='s'){
+        char c=Serial.read();
+              r=c;
+      }
+   }
+       
+       
+ }
+ 
+  int max[]={0,0,0,0,0,0,0,0,0};
+  int min[]={1024,1024,1024,1024,1024,1024,1024,1024,1024};
+  int read[]={0,0,0,0,0,0,0,0,0};
+  for(int i=0;i<1000;i++)
+  {
+    read[0]=analogRead(A0);
+    read[1]=analogRead(A1);
+    read[2]=analogRead(A2);
+    read[3]=analogRead(A3);
+    read[4]=analogRead(A4);
+    read[5]=analogRead(A5);
+   // read[6]=analogRead(A6);
+    for(int j=0;j<=5;j++)
+    {
+      if(max[j]<read[j])
+      {
+        max[j]=read[j];      
+      }
+      else if(min[j]>read[j])
+      {
+        min[j]=read[j];
+      }
+    }
+    delay(20);
+  }
+   
+  avg1=(max[0]+min[0])/2;
+  avg2=(max[1]+min[1])/2;
+  avg3=(max[2]+min[2])/2;
+  avg4=(max[3]+min[3])/2;
+  avg5=(max[4]+min[4])/2;
+  avg6=(max[5]+min[5])/2;
+  // avg7=(max[6]+min[6])/2;
+  //avg8=(max[7]+min[7])/2;
+ 
+ Serial.write("g");
+}
+
+Void reset()
+{
+	digitalWrite(p1,LOW);
+	digitalWrite(p2,LOW);
+	digitalWrite(p3,LOW);
+	digitalWrite(p4,LOW);
+	digitalWrite(p5,LOW);
+	digitalWrite(p6,LOW);
+	digitalWrite(p7,LOW);
+	digitalWrite(p8,LOW);
+	digitalWrite(p9,LOW);
+	fl1=0;
+	fl2=0;
+	fl3=0;
+	fl4=0;
+	fl5=0;
+	fl6=0;
+	fl7=0;
+	fl8=0;
+	fl9=0;
+}
+
+void blink(){
+  while(1){
+    digitalWrite(p1,HIGH);
+    digitalWrite(p2,HIGH);
+    digitalWrite(p3,HIGH);
+    digitalWrite(p4,HIGH);
+    digitalWrite(p5,HIGH);
+    digitalWrite(p6,HIGH);
+    digitalWrite(p7,HIGH);
+    digitalWrite(p8,HIGH);
+    digitalWrite(p9,HIGH);
+    delay(300);
+    digitalWrite(p1,LOW);
+    digitalWrite(p2,LOW);
+    digitalWrite(p3,LOW);
+    digitalWrite(p4,LOW);
+    digitalWrite(p5,LOW);
+    digitalWrite(p6,LOW);
+    digitalWrite(p7,LOW);
+    digitalWrite(p8,LOW);
+    digitalWrite(p9,LOW);
+    delay(300);}
+    
+}
+int a1,a2,a3,a4,a5,a6,a7,a8,a9;
+char moved='0';
+int fl1=0,fl2=0,fl3=0,fl4=0,fl5=0,fl6=0,fl7=0,fl8=0,fl9=0;
+int s=0;
+
+
+void loop() {
+ a1=analogRead(A0);
+ a2=analogRead(A1);
+ a3=analogRead(A2);
+ a4=analogRead(A3);
+ a5=analogRead(A4);
+ a6=analogRead(A5);
+if(a1>avg1 && fl1==0)
+  {
+    digitalWrite(p1,HIGH);
+    fl1=1;
+    moved='1';
+  }
+  if(a2>avg2 && fl2==0)
+  {
+    digitalWrite(p2,HIGH);
+    fl2=1;
+    moved='2';
+  }
+  if(a3<avg3 && fl3==0)
+  {
+    digitalWrite(p3,HIGH);
+    fl3=1;
+    moved='3';
+  }
+  if(a4<avg4 && fl4==0)
+  {
+    digitalWrite(p4,HIGH);
+    fl4=1;
+    moved='4';
+  }
+  if(a5<avg5 && fl5==0)
+  {
+    digitalWrite(p5,HIGH);
+    fl5=1;
+    moved='5';
+  }
+  if(a6>avg6 && fl6==0)
+  {
+    digitalWrite(p6,HIGH);
+    fl6=1;
+    moved='6';
+  }
+  
+  
+int a7,a8,a9;   
+  a7=digitalRead(11);
+  a8=digitalRead(12);
+  a9=digitalRead(13);
+  if(a7==1 && fl7==0)
+  {
+    digitalWrite(p7,HIGH);
+    fl7=1;
+    moved='7';
+  }
+  if(a8==1 && fl8==0)
+  {
+    digitalWrite(p8,HIGH);
+    fl8=1;
+    moved='8';
+  }
+  if(a9==1 && fl9==0) 
+  {
+    digitalWrite(p9,HIGH);
+    fl9=1;
+    moved='9';
+  }
+  
+  if(Serial.available()){
+   r='e';
+    if(Serial.available()>0)
+    {
+     delay(500);
+      char c=Serial.read();
+      r=c;
+      if(r=='t' && moved!='0'){
+          Serial.write(moved);
+          moved='0';
+        }
+        else if(r=='1')
+        {
+          fl1=1;
+          digitalWrite(p1,HIGH);
+        }
+         else if(r=='2')
+        {
+          fl2=1;
+          digitalWrite(p2,HIGH);
+        }
+         else if(r=='3')
+        {
+          fl3=1;
+          digitalWrite(p3,HIGH);
+        }
+         else if(r=='4')
+        {
+          fl4=1;
+          digitalWrite(p4,HIGH);
+        }
+         else if(r=='5')
+        {
+          fl5=1;
+          digitalWrite(p5,HIGH);
+        }
+         else if(r=='6')
+        {
+          fl6=1;
+          digitalWrite(p6,HIGH);
+        }
+         else if(r=='7')
+        {
+          fl7=1;
+          digitalWrite(p7,HIGH);
+        }
+         else if(r=='8')
+        {
+          fl8=1;
+          digitalWrite(p8,HIGH);
+        }
+         else if(r=='9')
+        {
+          fl9=1;
+          digitalWrite(p9,HIGH);
+        }
+        
+        else if(r=='l')
+        {
+          blink();
+        }else if(r=='w')
+        {
+         reset();
+        }
+      
+        
+ }
+}
+  
+}
+
+
+
+
+
+

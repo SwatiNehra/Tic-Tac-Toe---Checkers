@@ -1,0 +1,186 @@
+int avg1,avg2,avg3,avg4,avg5,avg6,avg7,avg8,avg9;
+int g1=2,g2=3,g3=4,g4=5,g5=6,g6=7,g7=11,g8=12,g9=13;
+char r;
+int data;
+void setup() {
+  Serial.begin(9600);
+  pinMode(g1,OUTPUT);
+  pinMode(g2,OUTPUT);  
+  pinMode(g3,OUTPUT);  
+  pinMode(g4,OUTPUT);
+  pinMode(g5,OUTPUT);  
+  pinMode(g6,OUTPUT);  
+  pinMode(g7,OUTPUT);
+  pinMode(g8,OUTPUT);  
+  pinMode(g9,OUTPUT); 
+  while(!Serial.available())
+  {
+   
+  }
+  digitalWrite(13,LOW);
+  
+  if(Serial.available()){
+   // if(Serial.available()>0)
+    { 
+      
+      while(r!='s'){
+        char c=Serial.read();
+              r=c;
+      }
+   }
+       
+      
+ } 
+  
+  digitalWrite(g1,HIGH);
+  digitalWrite(g2,HIGH);
+  digitalWrite(g3,HIGH);
+  digitalWrite(g4,HIGH);
+  digitalWrite(g5,HIGH);
+  digitalWrite(g6,HIGH);
+  digitalWrite(g7,HIGH);
+  digitalWrite(g8,HIGH);
+  digitalWrite(g9,HIGH);
+  pinMode(A3,INPUT);
+  pinMode(A1,INPUT);
+  pinMode(A2,INPUT);
+  int max[]={0,0,0};
+  pinMode(8,OUTPUT);
+  pinMode(9,OUTPUT);
+  pinMode(10,OUTPUT);
+  
+  int min[]={1024,1024,1024};
+  int read[]={0,0,0};
+  Serial.println("calib");
+  for(int i=0;i<1000;i++)
+  {
+    read[0]=analogRead(A3);
+    read[1]=analogRead(A1);
+    read[2]=analogRead(A2);
+    for(int j=0;j<=2;j++)
+    {
+      if(max[j]<read[j])
+      {
+        max[j]=read[j];      
+      }
+      else if(min[j]>read[j])
+      {
+        min[j]=read[j];
+      }
+    }
+    delay(20);
+  }
+  avg1=(max[0]+min[0])/2;
+  avg2=(max[1]+min[1])/2;
+  avg3=(max[2]+min[2])/2;
+Serial.println("done");
+
+
+}
+
+
+Void reset()
+{
+  digitalWrite(g1,HIGH);
+  digitalWrite(g2,HIGH);
+  digitalWrite(g3,HIGH);
+  digitalWrite(g4,HIGH);
+  digitalWrite(g5,HIGH);
+  digitalWrite(g6,HIGH);
+  digitalWrite(g7,HIGH);
+  digitalWrite(g8,HIGH);
+  digitalWrite(g9,HIGH);
+
+}
+int a1,a2,a3;
+void loop() {
+
+ if(Serial.available()){
+    if(Serial.available()>0)
+    { 
+      char c=Serial.read();
+      r=c;
+       if(r=='1')
+        {
+          digitalWrite(g1,LOW);
+        }
+         else if(r=='2')
+        {
+          digitalWrite(g2,LOW);
+        }
+         else if(r=='3')
+        {
+          digitalWrite(g3,LOW);
+        }
+         else if(r=='4')
+        {
+          digitalWrite(g4,LOW);
+        }
+         else if(r=='5')
+        {
+          digitalWrite(g5,LOW);
+        }
+         else if(r=='6')
+        {
+          digitalWrite(g6,LOW);
+        }
+         else if(r=='7')
+        {
+          digitalWrite(g7,LOW);
+        }
+         else if(r=='8')
+        {
+          digitalWrite(g8,LOW);
+        }
+         else if(r=='9')
+        {
+          digitalWrite(g9,LOW);
+        }
+        
+        else if(r=='l')
+        {
+          digitalWrite(g1,LOW);
+          digitalWrite(g2,LOW);
+          digitalWrite(g3,LOW);
+          digitalWrite(g4,LOW);
+          digitalWrite(g5,LOW);
+          digitalWrite(g6,LOW);
+          digitalWrite(g7,LOW);
+          digitalWrite(g8,LOW);
+          digitalWrite(g9,LOW);
+        } else if(r=='w')
+        {
+	  reset()
+	}
+
+    }
+  } 
+ a1=analogRead(A3);
+ a2=analogRead(A1);
+ a3=analogRead(A2);
+
+ //Serial.println(avg1);
+ //Serial.println(a2);
+// Serial.println(a3);
+ 
+ //Serial.println(a1);
+ //Serial.print("average");
+ //Serial.println(avg1);
+  
+ if(a1>avg1)
+  {
+    Serial.println('7');
+    digitalWrite(8,HIGH);
+  }
+  if(a2>avg2)
+  {
+   Serial.println('8');
+    digitalWrite(9,HIGH);
+  } 
+  
+  if(a3<avg3)
+  {
+    Serial.println('9');
+    digitalWrite(10,HIGH);
+  } 
+}
